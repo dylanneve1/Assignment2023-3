@@ -52,6 +52,8 @@ public:
     void DeleteWord(string word);
     // ADVANCED
     // deletes node with word <word> and updates other pointers etc
+private:
+    bool first_word_set = false;
 protected:
     int length; // number of nodes in the list
     Node *first; // pointer to first node in the list

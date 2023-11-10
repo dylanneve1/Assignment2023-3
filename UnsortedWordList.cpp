@@ -35,7 +35,7 @@ Node *UnsortedWordList::Back() const {
 }
 
 bool UnsortedWordList::Contains(std::string word) {
-    bool ret;
+    bool ret = false;
     return ret;
 }
 
@@ -55,9 +55,36 @@ int UnsortedWordList::MaxCount() const {
 }
 
 void UnsortedWordList::Print() const {
+    cout << "WordList(" << endl;
+    cout << "length=" << Length() << endl;
+    cout << "Word(" << first->word << "," << first->count << ")" << endl;
+    Node *current = first;
+    while (current->link != nullptr) {
+        current = current->link;
+        cout << "Word(" << current->word << "," << current->count << ")" << endl;
+    }
+    cout << ")" << endl;
 }
 
 void UnsortedWordList::CountWord(std::string word) {
+    if (!first_word_set) {
+        first = new Node(word, 1);
+        first_word_set = true;
+        length++;
+        return;
+    }
+    if (!Contains(word)) {
+        Node *current = first;
+        if (current->link == nullptr) {
+            current->link = new Node(word, 1);
+            current->link->count++;
+        } else {
+            while (current->link != nullptr) {
+                current = current->link;
+            }
+            current->link = new Node(word, 1);
+        }
+    }
 }
 
 void UnsortedWordList::InsertFirst(std::string word) {
