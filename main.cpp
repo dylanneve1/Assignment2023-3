@@ -1,6 +1,18 @@
 #include <iostream>
 
+#include "Node.h"
+#include "TextAnalyser.h"
+#include "UnsortedWordList.h"
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    UnsortedWordList list;
+    list.CountWord("Ultimate");
+    list.CountWord("Question");
+    list.CountWord("to");
+    list.CountWord("Life");
+    list.CountWord("Universe");
+    list.CountWord("and");
+    list.CountWord("Everything");
+    list.CountWord("Question");
+    list.Print();
 }
