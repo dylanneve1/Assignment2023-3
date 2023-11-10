@@ -5,14 +5,11 @@
 #include "UnsortedWordList.h"
 
 int main() {
+    TextAnalyser textAnalyser;
     UnsortedWordList list;
-    list.CountWord("Ultimate");
-    list.CountWord("Question");
-    list.CountWord("to");
-    list.CountWord("Life");
-    list.CountWord("Universe");
-    list.CountWord("and");
-    list.CountWord("Everything");
-    list.CountWord("Question");
+    textAnalyser.ReadFile("hitchhiker.txt");
+    list = textAnalyser.listA;
     list.Print();
+    cout << "Does the list contain 'the'? " << list.Contains("the") << endl;
+    cout << "Does the list contain 'them'? " << list.Contains("them") << endl;
 }
