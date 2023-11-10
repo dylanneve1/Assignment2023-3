@@ -36,11 +36,28 @@ Node *UnsortedWordList::Back() const {
 
 bool UnsortedWordList::Contains(std::string word) {
     bool ret = false;
+    // check if the list contains <word>
+    Node *current = first;
+    while (current->link != nullptr) {
+        if (current->word == word) {
+            ret = true;
+            break;
+        }
+        current = current->link;
+    }
     return ret;
 }
 
 Node *UnsortedWordList::FindWord(std::string word) {
     Node *ret;
+    Node *current = first;
+    while (current->link != nullptr) {
+        if (current->word == word) {
+            ret = current;
+            break;
+        }
+        current = current->link;
+    }
     return ret;
 }
 
@@ -77,13 +94,15 @@ void UnsortedWordList::CountWord(std::string word) {
         Node *current = first;
         if (current->link == nullptr) {
             current->link = new Node(word, 1);
-            current->link->count++;
         } else {
             while (current->link != nullptr) {
                 current = current->link;
             }
             current->link = new Node(word, 1);
         }
+    } else {
+        Node *current = FindWord(word);
+        current->count++;
     }
 }
 
