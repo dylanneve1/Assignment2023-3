@@ -20,7 +20,15 @@ bool UnsortedWordList::IsEmpty() const {
 }
 
 int UnsortedWordList::Length() const {
-    int ret;
+    if (!first_word_set) {
+        return 0;
+    }
+    int ret = 1;
+    Node *current = first;
+    while (current->link != nullptr) {
+        ret++;
+        current = current->link;
+    }
     return ret;
 }
 
@@ -87,7 +95,6 @@ void UnsortedWordList::CountWord(std::string word) {
     if (!first_word_set) {
         first = new Node(word, 1);
         first_word_set = true;
-        length++;
         return;
     }
     if (!Contains(word)) {
