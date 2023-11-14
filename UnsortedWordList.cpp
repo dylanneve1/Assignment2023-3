@@ -165,9 +165,13 @@ void UnsortedWordList::InsertFirst(std::string word) {
         last = first;
         return;
     }
-    Node *temp = first;
-    first = new Node(word, 1);
-    first->link = temp;
+    if (!Contains(word)) {
+        Node *temp = first;
+        first = new Node(word, 1);
+        first->link = temp;
+    } else {
+        CountWord(word);
+    }
 }
 
 void UnsortedWordList::DeleteAll() {
