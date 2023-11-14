@@ -32,18 +32,26 @@ void TextAnalyser::Intersection() {
     }
     Node *current = listA.Front();
     if(listB.Contains(current->word)) {
-        Node *contained = listB.FindWord(current->word);
-        int combined_count = current->count + contained->count;
-        for (int i = 1; i <= combined_count; i++) {
+        int entries = 0;
+        if (current->count <= listB.FindWord(current->word)->count) {
+            entries = current->count;
+        } else {
+            entries = listB.FindWord(current->word)->count;
+        }
+        for (int i = 1; i <= entries; i++) {
             listC.CountWord(current->word);
         }
     }
     while (current->link != nullptr) {
         current = current->link;
         if(listB.Contains(current->word)) {
-            Node *contained = listB.FindWord(current->word);
-            int combined_count = current->count + contained->count;
-            for (int i = 1; i <= combined_count; i++) {
+            int entries = 0;
+            if (current->count <= listB.FindWord(current->word)->count) {
+                entries = current->count;
+            } else {
+                entries = listB.FindWord(current->word)->count;
+            }
+            for (int i = 1; i <= entries; i++) {
                 listC.CountWord(current->word);
             }
         }
