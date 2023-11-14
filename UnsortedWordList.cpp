@@ -67,40 +67,46 @@ bool UnsortedWordList::Contains(std::string word) {
 }
 
 Node *UnsortedWordList::FindWord(std::string word) {
-    Node *ret;
-    Node *current = first;
-    if (current->word == word) {
-        ret = current;
-    }
-    while (current->link != nullptr) {
-        current = current->link;
+    if (first_word_set) {
+        Node *current = first;
+
         if (current->word == word) {
-            ret = current;
-            break;
+            return current;
+        }
+        while (current->link != nullptr) {
+            current = current->link;
+            if (current->word == word) {
+                return current;
+            }
         }
     }
+    Node *ret = new Node(word, 0);
     return ret;
 }
 
 string UnsortedWordList::MaxWord() const {
     string ret;
-    Node *current = first;
-    Node *max = first;
-    bool double_count = false;
+    if (first_word_set) {
+        Node *current = first;
+        Node *max = first;
+        bool double_count = false;
 
-    while (current->link != nullptr) {
-        current = current->link;
-        if (current->count > max->count) {
-            max = current;
-            double_count = false;
-        } else if (current->count == max->count) {
-            double_count = true;
+        while (current->link != nullptr) {
+            current = current->link;
+            if (current->count > max->count) {
+                max = current;
+                double_count = false;
+            } else if (current->count == max->count) {
+                double_count = true;
+            }
         }
-    }
-    if (double_count) {
-        ret = "undefined";
+        if (double_count) {
+            ret = "undefined";
+        } else {
+            ret = max->word;
+        }
     } else {
-        ret = max->word;
+        ret = "undefined";
     }
     return ret;
 }
