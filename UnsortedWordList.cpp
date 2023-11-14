@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define LOG_DEBUG 0
+
 UnsortedWordList::UnsortedWordList() {
 }
 
@@ -21,32 +23,34 @@ bool UnsortedWordList::IsEmpty() const {
     } else {
         ret = false;
     }
+    if (LOG_DEBUG) cout << "IsEmpty() = " << ret << endl;
     return ret;
 }
 
 int UnsortedWordList::Length() const {
+    int ret;
     if (!first_word_set) {
-        return 0;
+        ret = 0;
+    } else {
+        ret = 1;
+        Node *current = first;
+        while (current->link != nullptr) {
+            ret++;
+            current = current->link;
+        }
     }
-    int ret = 1;
-    Node *current = first;
-    while (current->link != nullptr) {
-        ret++;
-        current = current->link;
-    }
+    if (LOG_DEBUG) cout << "Length() = " << ret << endl;
     return ret;
 }
 
 Node *UnsortedWordList::Front() const {
-    Node *ret;
-    ret = first;
-    return ret;
+    if (LOG_DEBUG) cout << "Front()" << endl;
+    return first;
 }
 
 Node *UnsortedWordList::Back() const {
-    Node *ret;
-    ret = last;
-    return ret;
+    if (LOG_DEBUG) cout << "Back()" << endl;
+    return last;
 }
 
 bool UnsortedWordList::Contains(std::string word) {
@@ -66,10 +70,12 @@ bool UnsortedWordList::Contains(std::string word) {
             break;
         }
     }
+    if (LOG_DEBUG) cout << "Contains(" << word << ") = " << ret << endl;
     return ret;
 }
 
 Node *UnsortedWordList::FindWord(std::string word) {
+    if (LOG_DEBUG) cout << "FindWord(" << word << ")" << endl;
     if (first_word_set) {
         Node *current = first;
 
@@ -83,8 +89,7 @@ Node *UnsortedWordList::FindWord(std::string word) {
             }
         }
     }
-    Node *ret = new Node(word, 0);
-    return ret;
+    return nullptr;
 }
 
 string UnsortedWordList::MaxWord() const {
@@ -111,23 +116,26 @@ string UnsortedWordList::MaxWord() const {
     } else {
         ret = "undefined";
     }
+    if (LOG_DEBUG) cout << "MaxWord() = " << ret << endl;
     return ret;
 }
 
 int UnsortedWordList::MaxCount() const {
-    int ret = 0;
+    int ret;
     if (!first_word_set) {
-        return ret;
-    }
-    Node *current = first;
-    Node *max = first;
-    while (current->link != nullptr) {
-        current = current->link;
-        if (current->count > max->count) {
-            max = current;
+        ret = 0;
+    } else {
+        Node *current = first;
+        Node *max = first;
+        while (current->link != nullptr) {
+            current = current->link;
+            if (current->count > max->count) {
+                max = current;
+            }
         }
+        ret = max->count;
     }
-    ret = max->count;
+    if (LOG_DEBUG) cout << "MaxCount() = " << ret << endl;
     return ret;
 }
 
@@ -146,6 +154,7 @@ void UnsortedWordList::Print() const {
 }
 
 void UnsortedWordList::CountWord(std::string word) {
+    if (LOG_DEBUG) cout << "CountWord(" << word << ")" << endl;
     if (!first_word_set) {
         first = new Node(word, 1);
         first_word_set = true;
@@ -171,6 +180,7 @@ void UnsortedWordList::CountWord(std::string word) {
 }
 
 void UnsortedWordList::InsertFirst(std::string word) {
+    if (LOG_DEBUG) cout << "InsertFirst(" << word << ")" << endl;
     if (!first_word_set) {
         first = new Node(word, 1);
         first_word_set = true;
@@ -187,6 +197,7 @@ void UnsortedWordList::InsertFirst(std::string word) {
 }
 
 void UnsortedWordList::DeleteAll() {
+    if (LOG_DEBUG) cout << "DeleteAll()" << endl;
     if (!first_word_set) {
         return;
     }
@@ -203,6 +214,7 @@ void UnsortedWordList::DeleteAll() {
 }
 
 void UnsortedWordList::DeleteWord(std::string word) {
+    if (LOG_DEBUG) cout << "DeleteWord(" << word << ")" << endl;
     if (!Contains(word)) {
         return;
     }
