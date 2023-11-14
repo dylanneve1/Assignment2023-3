@@ -122,11 +122,13 @@ int UnsortedWordList::MaxCount() const {
 void UnsortedWordList::Print() const {
     cout << "WordList(" << endl;
     cout << "length=" << Length() << endl;
-    cout << "Word(" << first->word << "," << first->count << ")" << endl;
-    Node *current = first;
-    while (current->link != nullptr) {
-        current = current->link;
-        cout << "Word(" << current->word << "," << current->count << ")" << endl;
+    if (first_word_set) {
+        cout << "Word(" << first->word << "," << first->count << ")" << endl;
+        Node *current = first;
+        while (current->link != nullptr) {
+            current = current->link;
+            cout << "Word(" << current->word << "," << current->count << ")" << endl;
+        }
     }
     cout << ")" << endl;
 }
@@ -157,10 +159,47 @@ void UnsortedWordList::CountWord(std::string word) {
 }
 
 void UnsortedWordList::InsertFirst(std::string word) {
+    if (!first_word_set) {
+        first = new Node(word, 1);
+        first_word_set = true;
+        last = first;
+        return;
+    }
+    Node *temp = first;
+    first = new Node(word, 1);
+    first->link = temp;
 }
 
 void UnsortedWordList::DeleteAll() {
+    Node *current = first;
+    while (current->link != nullptr) {
+        Node *temp = current;
+        current = current->link;
+        delete temp;
+    }
+    delete current;
+    first = nullptr;
+    last = nullptr;
+    first_word_set = false;
 }
 
 void UnsortedWordList::DeleteWord(std::string word) {
+    Node *current = first;
+    if (current->word == word) {
+        first = current->link;
+        delete current;
+        return;
+    }
+    while (current->link != nullptr) {
+        if (current->link->word == word) {
+            if (current->link == last) {
+                last = current;
+            }
+            Node *temp = current->link;
+            current->link = current->link->link;
+            delete temp;
+            return;
+        }
+        current = current->link;
+    }
 }
