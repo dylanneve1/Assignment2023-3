@@ -22,4 +22,11 @@ void TextAnalyser::ReadFile(string filename) {
             listB.CountWord(word);
         }
     }
+    readIntoA = !readIntoA;
+}
+
+void TextAnalyser::Intersection() {
+}
+
+void TextAnalyser::Union() {
 }
