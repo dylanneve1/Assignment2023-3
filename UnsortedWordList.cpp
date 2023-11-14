@@ -34,11 +34,13 @@ int UnsortedWordList::Length() const {
 
 Node *UnsortedWordList::Front() const {
     Node *ret;
+    ret = first;
     return ret;
 }
 
 Node *UnsortedWordList::Back() const {
     Node *ret;
+    ret = last;
     return ret;
 }
 
@@ -95,17 +97,20 @@ void UnsortedWordList::CountWord(std::string word) {
     if (!first_word_set) {
         first = new Node(word, 1);
         first_word_set = true;
+        last = first;
         return;
     }
     if (!Contains(word)) {
         Node *current = first;
         if (current->link == nullptr) {
             current->link = new Node(word, 1);
+            last = current->link;
         } else {
             while (current->link != nullptr) {
                 current = current->link;
             }
             current->link = new Node(word, 1);
+            last = current->link;
         }
     } else {
         Node *current = FindWord(word);
