@@ -16,6 +16,11 @@ UnsortedWordList::~UnsortedWordList() {
 
 bool UnsortedWordList::IsEmpty() const {
     bool ret;
+    if (!first_word_set) {
+        ret = true;
+    } else {
+        ret = false;
+    }
     return ret;
 }
 
@@ -48,12 +53,15 @@ bool UnsortedWordList::Contains(std::string word) {
     bool ret = false;
     // check if the list contains <word>
     Node *current = first;
+    if (current->word == word) {
+        ret = true;
+    }
     while (current->link != nullptr) {
+        current = current->link;
         if (current->word == word) {
             ret = true;
             break;
         }
-        current = current->link;
     }
     return ret;
 }
@@ -61,23 +69,53 @@ bool UnsortedWordList::Contains(std::string word) {
 Node *UnsortedWordList::FindWord(std::string word) {
     Node *ret;
     Node *current = first;
+    if (current->word == word) {
+        ret = current;
+    }
     while (current->link != nullptr) {
+        current = current->link;
         if (current->word == word) {
             ret = current;
             break;
         }
-        current = current->link;
     }
     return ret;
 }
 
 string UnsortedWordList::MaxWord() const {
     string ret;
+    Node *current = first;
+    Node *max = first;
+    bool double_count = false;
+
+    while (current->link != nullptr) {
+        current = current->link;
+        if (current->count > max->count) {
+            max = current;
+            double_count = false;
+        } else if (current->count == max->count) {
+            double_count = true;
+        }
+    }
+    if (double_count) {
+        ret = "undefined";
+    } else {
+        ret = max->word;
+    }
     return ret;
 }
 
 int UnsortedWordList::MaxCount() const {
     int ret;
+    Node *current = first;
+    Node *max = first;
+    while (current->link != nullptr) {
+        current = current->link;
+        if (current->count > max->count) {
+            max = current;
+        }
+    }
+    ret = max->count;
     return ret;
 }
 
